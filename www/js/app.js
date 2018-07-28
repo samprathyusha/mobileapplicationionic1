@@ -14,14 +14,51 @@
 
 angular.module('ionicNFC', ['ionic', 'nfcFilters'])
 
-    .controller('MainController', function ($scope, nfcService) {
+    .controller('MainController', function ($scope, $filter, nfcService, lookupService) {
 
         $scope.tag = nfcService.tag;
+        $scope.shipid = '';
         $scope.clear = function() {
             nfcService.clearTag();
         };
 
+        $scope.status = 'notok';
+
+        $scope.checkstatus =function(record) {
+            var xx = $filter('decodePayload')(record);
+            lookupService.checkIdValid(xx).then(function(status){
+                alert(record);
+                alert(JSON.stringify(status));
+                if(status.status == 'ok')
+                    $scope.status = 'ok';
+                else 
+                    $scope.status = 'check result';
+
+            }, function(error){
+                $scope.status="nothappy";
+            });
+        }
+
     })
+
+    .factory('lookupService', function ($http) {
+
+        var tag = {};
+        return {
+            checkIdValid(record){
+
+                return $http.get('http://34.217.27.206:8080/api/manu/' + record).then(function(response) {
+
+                return response.data;
+
+             }, function(error) {
+                console.log(error);
+             });
+            }
+        }
+        
+    })
+
 
     .factory('nfcService', function ($rootScope, $ionicPlatform) {
 

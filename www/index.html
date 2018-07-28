@@ -58,6 +58,7 @@
                         <dd>{{ tag.isWritable }}</dd>
                         <dt>Can Make Read Only</dt>
                         <dd>{{ tag.canMakeReadOnly }}</dd>
+                        
                     </dl>
                     <div class="card" ng-repeat="record in tag.ndefMessage">
                         <div class="item item-divider">
@@ -73,6 +74,9 @@
                                 <dd ng-if="record.id">{{ record.id | bytesToString }}</dd>
                                 <dt>Payload</dt>
                                 <dd>{{ record | decodePayload }}</dd>
+                                <dd><button class="button button-block" ng-click="checkstatus(record)"> </button></dd>
+                        <dd>Checkstatus = {{ status }}</dd>
+                                
                             </dl>
                         </div>
                     </div>
