@@ -13,6 +13,8 @@
 // limitations under the License.
 
 angular.module('nfcFilters', [])
+
+
     .filter('bytesToHexString', function() {
         return function (input) {
             if (window.nfc) {
@@ -22,6 +24,22 @@ angular.module('nfcFilters', [])
             }
         }
     })
+
+    // .filter('hexToBytes', function () {
+    //     return function(input){
+    //         if(window.nfc){
+            
+    //     for (var bytes = [], c = 0; c < input.length; c += 2)
+    //     bytes.push(parseInt(input.substr(c, 2), 16));
+    //     return bytes;
+    //         }else{
+    //             return input;
+    //         }
+            
+    // }
+    // })
+    
+   
 
     .filter('bytesToString', function() {
         return function(input) {
@@ -82,6 +100,10 @@ angular.module('nfcFilters', [])
 
         function decodePayload(record) {
 
+
+
+
+
             var payload,
                 recordType = nfc.bytesToString(record.type);
 
@@ -97,11 +119,13 @@ angular.module('nfcFilters', [])
                 // your app should know how to process tags it receives
 
                 var printableData = record.payload.map(function(i) {
-                    if (i <= 0x1F) {
+  /*                  if (i <= 0x1F) {
                         return 0x2e; // unprintable, replace with "."
                     } else {
                         return i;
                     }
+*/
+                    return i;
                 });
 
                 payload = nfc.bytesToString(printableData);
